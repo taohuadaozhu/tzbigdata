@@ -1,3 +1,4 @@
+
 ![](https://github.com/rootsli/vue2admin/blob/master/doc/img/logo.png)
 
 vue2-admin - A scaffolding base Vue2.js
@@ -99,4 +100,4 @@ src：项目源码。开发的时候代码写在这里。
  - fetch与Service Workers的本地缓存方案
  - 国际化
  - 图表插件
- 
+ tzbigdata
