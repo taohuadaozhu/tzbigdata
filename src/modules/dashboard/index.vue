@@ -30,29 +30,93 @@
     width:100%;
     height: 100%;
   }
+  #charts{
+    position: absolute;
+    overflow-y: scroll;
+    overflow-x: auto;
+    padding: 0 24px 8px;
+    top: 56px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+  .grids{
+    height: 100%;
+    list-style: none;
+    box-sizing: inherit;
+    position: relative;
+  }
+  .grid{
+    position: absolute;
+    box-sizing: border-box;
+    list-style: outside none none;
+    transition: box-shadow .3s ease-in-out;
+    background: #fff;
+  }
+  
+  .grid-item{
+    position: absolute;
+    top:40px;
+    bottom:10px;
+    right: 10px;
+    left:10px;
+    min-width: 130px;
+    min-height: 60px;
+  }
+  .gridster{
+      height: 100%;
+  }
+  .gridster ul{height: 100%;}
+  .gridster li header {
+      position: absolute;
+       top:10px;
+    bottom:10px;
+    right: 10px;
+    left:15px;
+    height:30px;
+        background: #999;
+        display: block;
+        font-size: 20px;
+        line-height: normal;
+        padding: 4px 0 6px;
+        cursor: move;
+    }
 </style>
 <template>
 <div class="container">
- 
   <el-button class="newbtn" @click="dialogTableVisible = true">新建图表</el-button>
-<div>this is the first echarts</div>
+  <div id="charts">
+<div class="gridster">
+    <ul class="grids" >
+      <li v-for="(item,index) in itemPosition" class="grid gs-w"  :indexvalue ="index" ref="child"  :data-row="item.row" :data-col="item.colu" :data-sizex="item.sizex" :data-sizey="item.sizey">
+        <header>drag here</header>
+        <div class="grid-item">
+            <!-- 这里chart打算用子组件-->
+            <childChart :indexvalue="index" v-on:child-say="getDraw"></childChart>
+        </div>
+      </li>
+    </ul>
 
-<div id="charts">
-    <div id="main"  :style="{width:'600px',height:'400px'}"></div>
 </div>
-<el-dialog title="添加图表" :visible.sync="dialogTableVisible">
+  </div>
+    <el-dialog title="添加图表" :visible.sync="dialogTableVisible">
         <template>
           <workTableTree></workTableTree>
         </template>
     </el-dialog>
   </div>
 </template>
-<<script>
-import echarts from 'echarts'
+<script>
+
 import workTableTree from '../../components/workTableTree'
+import childChart from './chart.vue'
+let dom = null
+
+
 export default {
   components: {
-      workTableTree
+      workTableTree,
+      childChart
     },
      watch: {
       filterText(val) {
@@ -60,28 +124,69 @@ export default {
       }
     },
    data (){
-            return {
-                msg:"123",
-                dialogTableVisible:false,
-         filterText: ''
-            }
+      return {
+          msg:"123",
+          dialogTableVisible:false,
+          filterText: '',
+          beforeX:0,
+          beforeY:0,
+          
+          itemPosition:[
+              {row:"1",colu:"1",sizex:"4",sizey:"3"},
+          {row:"1",colu:"5",sizex:"3",sizey:"2"},
+          {row:"3",colu:"1",sizex:"2",sizey:"2"},
+          {row:"3",colu:"2",sizex:"1",sizey:"2"},
+          {row:"3",colu:"2",sizex:"1",sizey:"2"}]
+      }
         },
-        mounted (){
-            var myChart = echarts.init(document.getElementById('main'));
-            myChart.setOption({
-                title: { text: 'ECharts 入门示例' },
-                tooltip: {},
-                xAxis: {
-                    data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
-                },
-                yAxis: {},
-                series: [{
-                    name: '销量',
-                    type: 'bar',
-                    data: [5, 20, 36, 10, 10, 20]
-                }]
-            });
-        }
+  methods: {
+      getDraw:function(drawfuc){
+        this.getDraw = drawfuc;
+      },
+    goback:function (params) {
+          this.$router.back(-1);
+    },
+    //this three methods can drag doms but cant sort them 
+    // drag:function(event){
+    //     dom = event.currentTarget;
+    //    this.beforeX =event.clientX;
+    //    this.beforeY =event.clientY;
+    // },
+    // drop:function(event){
+    //     event.preventDefault();
+    //     let xx = Number($(dom).css("top").replace("px",""));
+    //     let yy = Number($(dom).css("left").replace("px",""));
+    //     $(dom).css("top",xx+(event.clientY-this.beforeY)+"px");
+    //     $(dom).css("left",yy+(event.clientX-this.beforeX)+"px");
+    //     console.log(this.itemPosition);
+    // },
+    // allowDrop:function(event){
+    //     event.preventDefault();
+    // },
+    
+    getGridster:function(event){
+        var app = this;
+        var  gridster;
+        gridster = $(".gridster ul").gridster({
+            widget_base_dimensions: [150, 100],
+            widget_margins: [10, 10],
+            draggable: {
+                handle: 'header'
+            },
+            resize:{
+                enabled:true,
+                max_size:[10,7],
+                stop:function(e, ui, $widget) {
+                    console.log(app.getDraw);
+                    app.getDraw();
+                }
+            }
+        }).data('gridster');
+    }
+},
+  mounted (){
+    this.getGridster();
+  }
 }
 </script>
 

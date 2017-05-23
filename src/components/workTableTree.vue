@@ -29,7 +29,7 @@
         <el-button type="primary" icon="el-icon-share">取消</el-button>
   </div>
 </template>
-<<script>
+<script>
 export default {
     watch: {
       filterText(val) {
