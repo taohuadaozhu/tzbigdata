@@ -92,7 +92,7 @@
         <header>drag here</header>
         <div class="grid-item">
             <!-- 这里chart打算用子组件-->
-            <childChart :indexvalue="index" v-on:child-say="getDraw"></childChart>
+            <childChart :indexvalue="index"></childChart>
         </div>
       </li>
     </ul>
@@ -110,8 +110,8 @@
 
 import workTableTree from '../../components/workTableTree'
 import childChart from './chart.vue'
+import { bus } from './bus.vue'
 let dom = null
-
 
 export default {
   components: {
@@ -141,7 +141,9 @@ export default {
         },
   methods: {
       getDraw:function(drawfuc){
-        this.getDraw = drawfuc;
+          var child = this.$refs.child[0]; //获取子组件实例
+          console.log(child);
+          child.drawchart();
       },
     goback:function (params) {
           this.$router.back(-1);
@@ -177,8 +179,8 @@ export default {
                 enabled:true,
                 max_size:[10,7],
                 stop:function(e, ui, $widget) {
-                    console.log(app.getDraw);
-                    app.getDraw();
+                   console.log($widget);
+                   bus.$emit('drawchart', '0');
                 }
             }
         }).data('gridster');

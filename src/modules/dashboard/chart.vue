@@ -12,6 +12,8 @@
 </template>
 <script>
 import echarts from 'echarts'
+import Vue from 'vue'
+import { bus } from './bus.vue'
 export default {
     //接收父组件的参数
     props: ['indexvalue'],
@@ -29,8 +31,8 @@ export default {
     },
 
     methods: {
-      drawchart:function(event){
-        var myChart = echarts.init(document.getElementById('main'+this.indexvalue));
+      drawchart:function(index){
+        var myChart = echarts.init(document.getElementById('main'+index));
          myChart.setOption({
           tooltip: {},
           xAxis: {
@@ -43,15 +45,20 @@ export default {
               data: this.datax
           }]
       });
-      this.$emit('drawchart',this.drawchart);
     }
 },
  mounted (){
      let app = this;
      setTimeout(function () {
-            app.drawchart();
+            app.drawchart(app.indexvalue);
     }, 1000)
     
+  },
+  created(){
+    var app = this;
+    bus.$on('drawchart',(index) =>{
+        app.drawchart(index);
+    });
   }
   };
 </script>
