@@ -255,7 +255,7 @@ i {
 </div>
   </div>
 </template>
-<<script>
+<script>
 import echarts from 'echarts'
 
 let dom = null

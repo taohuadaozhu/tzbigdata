@@ -40,7 +40,7 @@
 <el-form :model="user" :rules="rules" ref="loginForm" label-position="left" label-width="0px" label-suffix="：" class="demo-ruleForm login-container">
   <h3 class="title">系统登录</h3>
   <el-form-item  prop="name">
-    <el-input type="text" v-model.number.trim="user.name" auto-complete ="off" placeholder="账号"></el-input>
+    <el-input type="text" v-model.number.trim="user.name" auto-complete ="off" placeholder="用户名/手机号/邮箱"></el-input>
   </el-form-item>
   <el-form-item  prop="pass">
     <el-input type="password" v-model="user.pass" auto-complete="off" placeholder="密码"></el-input>
@@ -49,7 +49,7 @@
     <el-button class="btn" type="primary" @click.native.prevent="login('loginForm')" :loading="logining">登录</el-button>
   </el-form-item>
   <el-form-item style="width:50%;float:left;">
-    <el-button  class="btn" style="float:right;" type="primary" >注册</el-button>
+    <el-button  class="btn" style="float:right;" @click.native.prevent="register('loginForm')" type="primary" >注册</el-button>
   </el-form-item>
   <el-checkbox v-model="checked" checked class="remember">记住密码</el-checkbox>
 </el-form>

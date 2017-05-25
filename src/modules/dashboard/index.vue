@@ -88,11 +88,11 @@
   <div id="charts">
 <div class="gridster">
     <ul class="grids" >
-      <li v-for="(item,index) in itemPosition" class="grid gs-w"  :indexvalue ="index" ref="child"  :data-row="item.row" :data-col="item.colu" :data-sizex="item.sizex" :data-sizey="item.sizey">
+      <li v-for="(item,index) in itemPosition" class="grid gs-w"  :indexvalue ="index"   :data-row="item.row" :data-col="item.colu" :data-sizex="item.sizex" :data-sizey="item.sizey">
         <header>drag here</header>
         <div class="grid-item">
             <!-- 这里chart打算用子组件-->
-            <childChart :indexvalue="index"></childChart>
+            <childChart :indexvalue="index" ref="child"></childChart>
         </div>
       </li>
     </ul>
@@ -140,11 +140,7 @@ export default {
       }
         },
   methods: {
-      getDraw:function(drawfuc){
-          var child = this.$refs.child[0]; //获取子组件实例
-          console.log(child);
-          child.drawchart();
-      },
+
     goback:function (params) {
           this.$router.back(-1);
     },
@@ -179,8 +175,9 @@ export default {
                 enabled:true,
                 max_size:[10,7],
                 stop:function(e, ui, $widget) {
-                   console.log($widget);
-                   bus.$emit('drawchart', '0');
+                    //vue是数据驱动的，不应该从dom中取数据，但gridster是jquery插件，返回jquery对象，这里应该还有可以改变的方法
+                    //拖动后应保存到local
+                   bus.$emit('drawchart', $widget.attr("indexvalue"));
                 }
             }
         }).data('gridster');
