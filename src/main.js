@@ -5,7 +5,7 @@ import store from './store'
 import VueRouter from 'vue-router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
-// import 'dsmorse-gridster/dist/jquery.gridster.min.css'
+
 import './assets/jquery.gridster.min'
 import '../static/css/jquery.gridster.min.css'
 import './css/common.css'
@@ -16,6 +16,7 @@ import routes from './config/routes'
 import App from './App'
 import splitting from './modules/code-splitting-demo'
 import $ from 'jquery'
+// import 'dsmorse-gridster/dist/jquery.gridster.min.css'
 // import 'dsmorse-gridster'
 
 
