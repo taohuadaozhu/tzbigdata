@@ -81,6 +81,54 @@
         padding: 4px 0 6px;
         cursor: move;
     }
+    .chart-operate {
+    position: absolute;
+    z-index: 100;
+    top: 20px;
+    right: 22px;
+    background: white;
+}
+.edp-icon-wrap {
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    display: inline-block;
+    vertical-align: middle;
+}
+.chart-operate .edp-icon-wrap {
+    cursor: pointer;
+}
+.bdp-icon-wrap>.bdp-icon {
+    margin-top: -2px;
+}
+.ico-refresh,.ico-edit,.ico-more,.ico-fullscreen{
+    opacity: 1;
+    display: inline-block;
+        vertical-align: middle;
+        background: url(../../assets/svg-sprite.svg);
+}
+.ico-refresh {
+    background-position: -736px -256px;
+    width: 16px;
+    height: 16px;
+}
+
+.ico-edit {
+    background-position: -655px -620px;
+    width: 16px;
+    height: 16px;
+}
+.ico-more {
+    background-position: -528px -720px;
+    width: 16px;
+    height: 16px;
+}
+.ico-fullscreen {
+    background-position: -511px -620px;
+    width: 16px;
+    height: 16px;
+}
 </style>
 <template>
 <div class="container">
@@ -88,11 +136,25 @@
   <div id="charts">
 <div class="gridster">
     <ul class="grids" >
-      <li v-for="(item,index) in itemPosition" class="grid gs-w"  :indexvalue ="index"   :data-row="item.row" :data-col="item.colu" :data-sizex="item.sizex" :data-sizey="item.sizey">
+      <li v-for="(item,index) in itemPosition" class="grid gs-w" @mouseover="showOper(index)" @mouseout="hideOper(index)"  :indexvalue ="index"   :data-row="item.row" :data-col="item.colu" :data-sizex="item.sizex" :data-sizey="item.sizey">
         <header>drag here</header>
         <div class="grid-item">
             <!-- 这里chart打算用子组件-->
             <childChart :indexvalue="index" ref="child"></childChart>
+        </div>
+        <div class="chart-operate" v-show="showOperate&&focusIndex === index">
+            <a class="cursor-pointer edp-icon-wrap" @click="refreshChart(index)" title="刷新图表">
+                <i class="edp-icon ico-refresh"></i>
+            </a>
+            <a class="cursor-pointer edp-icon-wrap" @click="refreshChart(index)" title="编辑">
+                <i class="edp-icon ico-edit"></i>
+            </a>
+            <a class="cursor-pointer edp-icon-wrap" @click="refreshChart(index)" title="全屏">
+                <i class="edp-icon ico-fullscreen"></i>
+            </a>
+            <a class="cursor-pointer edp-icon-wrap" @click="refreshChart(index)" title="更多">
+                <i class="edp-icon ico-more"></i>
+            </a>
         </div>
       </li>
     </ul>
@@ -130,7 +192,8 @@ export default {
           filterText: '',
           beforeX:0,
           beforeY:0,
-          
+          showOperate:false,
+          focusIndex:0,
           itemPosition:[
               {row:"1",colu:"1",sizex:"4",sizey:"3"},
           {row:"1",colu:"5",sizex:"3",sizey:"2"},
@@ -140,7 +203,14 @@ export default {
       }
         },
   methods: {
-
+    showOper: function(index){
+        this.focusIndex = index;
+        this.showOperate=true;
+    },
+    hideOper: function(index){
+        this.focusIndex = index;
+        this.showOperate=false;
+    },
     goback:function (params) {
           this.$router.back(-1);
     },
@@ -161,7 +231,9 @@ export default {
     // allowDrop:function(event){
     //     event.preventDefault();
     // },
-    
+    refreshChart: function(index){
+        bus.$emit('drawchart', index);
+    },
     getGridster:function(event){
         var app = this;
         var  gridster;
@@ -176,7 +248,7 @@ export default {
                 max_size:[10,7],
                 stop:function(e, ui, $widget) {
                     //vue是数据驱动的，不应该从dom中取数据，但gridster是jquery插件，返回jquery对象，这里应该还有可以改变的方法
-                    //拖动后应保存到local
+                    //拖动后应保存到localStorage
                    bus.$emit('drawchart', $widget.attr("indexvalue"));
                 }
             }
