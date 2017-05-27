@@ -49,39 +49,50 @@
     .tab:hover{ border-bottom: 3px solid skyblue;color: skyblue;}
     .tab-right{margin-left: 25px;}
     .tab-active{ border-bottom: 3px solid skyblue;color: skyblue;}
+    .img-vali{
+        float:right;
+        margin-right:80px;
+        margin-top:5px;
+        width: 80px;
+        height: 30px;
+    }
 </style>
 <template>
 <el-form :model="user" :rules="rules" ref="loginForm" label-position="left" label-width="0px" label-suffix="：" class="demo-ruleForm login-container">
-  <div class="tab-content"><div class="tab tab-active" @click="tagChange(1)" >登录</div><div class="tab tab-right"  @click="tagChange(2)" >短信登录</div></div>
+  <div class="tab-content"><div class="tab tab-active" @click="tagChange(1)" >手机号注册</div><div class="tab tab-right"  @click="tagChange(2)" >邮箱注册</div></div>
   <div class="passlayer" v-show="1===showLayer">
-    <el-form-item  prop="name">
-      <el-input type="text" v-model.number.trim="user.name" auto-complete ="off" placeholder="用户名/手机号/邮箱"></el-input>
+    <el-form-item  prop="tel">
+      <el-input type="text" v-model.number.trim="user.tel" auto-complete ="off" placeholder="手机号"></el-input>
+    </el-form-item>
+    <el-form-item  prop="veri">
+      <el-input type="text" v-model.number.trim="user.veri" auto-complete ="off" placeholder="输入右侧验证码" style="width:50%;"></el-input>
+      <img class="img-vali" src=""/>
+    </el-form-item>
+    <el-form-item  prop="veri-tel">
+      <el-input type="text" v-model.number.trim="user.veriTel" auto-complete ="off" placeholder="短信验证码" style="width:50%;"></el-input>
+      <el-button>获取验证码</el-button>
     </el-form-item>
     <el-form-item  prop="pass" >
-      <el-input type="password" v-model="user.pass" auto-complete="off" placeholder="密码3-15位"></el-input>
+      <el-input type="password" v-model="user.pass" auto-complete="off" placeholder="设置密码3-15位"></el-input>
     </el-form-item>
-    <el-checkbox v-model="checked" checked class="remember">记住密码</el-checkbox>
-    <label class="forgotpass">忘记密码?</label>
+    
      
   </div>
   <div class="phonelayer" v-show="2===showLayer">
-    <el-form-item  prop="name">
-      <el-input type="text" v-model.number.trim="user.name" auto-complete ="off" placeholder="手机号"></el-input>
+    <el-form-item  prop="mail">
+      <el-input type="text" v-model.number.trim="user.mail" auto-complete ="off" placeholder="邮箱"></el-input>
     </el-form-item>
-    <el-form-item  prop="name">
-      <el-input type="text" v-model.number.trim="user.name" auto-complete ="off" placeholder="输入右侧验证码"></el-input>
-      <img src=""/>
+    <el-form-item  prop="veri">
+      <el-input type="text" v-model.number.trim="user.veri" auto-complete ="off" placeholder="输入右侧验证码" style="width:50%;"></el-input>
+      <img class="img-vali" src=""/>
     </el-form-item>
-    <el-form-item  prop="name">
-      <el-input type="text" v-model.number.trim="user.name" auto-complete ="off" placeholder="短信验证码"></el-input>
-      <el-button>发送手机验证码</el-button>
-    </el-form-item>
+    
   </div>
   <el-form-item >
-      <el-button class="btn" type="primary" @click.native.prevent="login('loginForm')" :loading="logining">登录</el-button>
+      <el-button class="btn" type="primary" @click.native.prevent="login('loginForm')" :loading="logining">注册</el-button>
     </el-form-item>
   <el-form-item>
-    <label>还没有edp账号？</label><el-button type="text" @click.native.prevent="register()">立即注册</el-button>
+    <label>已有edp账号？</label><el-button type="text" @click.native.prevent="login()">立即登录</el-button>
   </el-form-item>
   
 </el-form>
@@ -118,22 +129,43 @@
           }
         }, 500);
       };
+
+      let checkTel = (rule, value, callback) => {
+        if (!value) {
+          return callback(new Error('请输入正确手机号'));
+        }
+        setTimeout(() => {
+          //验证手机号
+            if(!/^[0-9]{11}$/.test(value)){
+              return callback(new Error('手机号错误！'));
+            }else{
+              callback();
+            }
+        }, 500);
+      };
+
       return {
         logining: false,
         checked: true,
         showLayer:1,
         user: {
           name: '',
-          pass: ''
+          pass: '',
+          tel: '',
+          veri:'',
+          veriTel:'',
+          mail:''
         },
         rules: {
-          name: [
-            {validator: checkName, trigger: 'blur'}
+          tel: [
+            {validator: checkTel, trigger: 'blur'}
           ],
           pass: [
             {required: true, message: '请输入密码', trigger: 'blur'},
             {min: 3, max: 15, message: '长度为 3~15 个字符', trigger: 'blur'}
-          ]
+          ],
+          mail:[{type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur,change' }]
+
         }
       };
     },
@@ -146,26 +178,24 @@
       }
     },
     methods: {
-      register:function(){
-        
-        this.$router.push('/register');
-        console.log(111);
+      login:function(){
+        this.$router.push('/login');
       },
       tagChange:function(index){
-        console.log(2===this.showLayer);
         this.showLayer = index;
-      },
-      login(formName) {
-
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            this.logining = true;
-            this.$store.dispatch('login', {name: this.user.name, pass: this.user.pass})
-          } else {
-            return false;
-          }
-        });
       }
+    //   ,
+    //   login(formName) {
+
+    //     this.$refs[formName].validate((valid) => {
+    //       if (valid) {
+    //         this.logining = true;
+    //         this.$store.dispatch('login', {name: this.user.name, pass: this.user.pass})
+    //       } else {
+    //         return false;
+    //       }
+    //     });
+    //   }
     }
   }
 </script>

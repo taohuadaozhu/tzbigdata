@@ -6,8 +6,9 @@ import VueRouter from 'vue-router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 
-import './assets/jquery.gridster.min'
-import '../static/css/jquery.gridster.min.css'
+//import '../static/css/jquery.gridster.min.css'
+//import './assets/jquery.gridster.min'
+
 import './css/common.css'
 import './css/iconfont.css'
 import mock from './apis/mock'
@@ -16,8 +17,8 @@ import routes from './config/routes'
 import App from './App'
 import splitting from './modules/code-splitting-demo'
 import $ from 'jquery'
-// import 'dsmorse-gridster/dist/jquery.gridster.min.css'
-// import 'dsmorse-gridster'
+import 'dsmorse-gridster/dist/jquery.gridster.min.css'
+import 'dsmorse-gridster'
 
 
 
@@ -36,7 +37,7 @@ router.beforeEach(({meta, path}, from, next) => {
   let {auth = true} = meta
   let isLogin = Boolean(store.state.login.tokens != '') //true用户已登录， false用户未登录
 
-  if (auth && !isLogin && path !== '/login') {
+  if (auth && !isLogin && path !== '/login'&& path !== '/register') {
     return next({path: '/login'})
   }
 

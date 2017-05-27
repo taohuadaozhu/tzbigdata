@@ -20,8 +20,8 @@ export default {
     data() {
       return {
         
-        datax:[5, 20, 36, 10, 10, 20],
-        datay:["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+        datay:[5, 20, 36, 10, 10, 20],
+        datax:["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
       }
     },
     watch: {
@@ -36,13 +36,13 @@ export default {
          myChart.setOption({
           tooltip: {},
           xAxis: {
-              data: this.datay
+              data: this.datax
           },
           yAxis: {},
           series: [{
               name: '销量',
               type: 'bar',
-              data: this.datax
+              data: this.datay
           }]
       });
     }

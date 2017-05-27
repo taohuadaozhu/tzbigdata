@@ -291,6 +291,7 @@ export default {
             },
         },
         mounted (){
+            console.log(this.$route.params.index);
             var myChart = echarts.init(document.getElementById('chartBox'));
             myChart.setOption({
                 title: { text: '...' },

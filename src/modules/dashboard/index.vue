@@ -133,6 +133,11 @@
 <template>
 <div class="container">
   <el-button class="newbtn" @click="dialogTableVisible = true">新建图表</el-button>
+  <el-select v-model="value10" placeholder="请选择" v-on:change="getSelect()">
+    <el-option
+      v-for="item in options" :key="item.value" :label="item.label"  :value="item.value">
+    </el-option>
+  </el-select>
   <div id="charts">
 <div class="gridster">
     <ul class="grids" >
@@ -146,7 +151,7 @@
             <a class="cursor-pointer edp-icon-wrap" @click="refreshChart(index)" title="刷新图表">
                 <i class="edp-icon ico-refresh"></i>
             </a>
-            <a class="cursor-pointer edp-icon-wrap" @click="refreshChart(index)" title="编辑">
+            <a class="cursor-pointer edp-icon-wrap" @click="toEdit(index)" title="编辑">
                 <i class="edp-icon ico-edit"></i>
             </a>
             <a class="cursor-pointer edp-icon-wrap" @click="refreshChart(index)" title="全屏">
@@ -187,6 +192,14 @@ export default {
     },
    data (){
       return {
+          options: [{
+          value: '选项1',
+          label: 'tomcat7'
+        }, {
+          value: '选项2',
+          label: 'tomcat8'
+        }],
+        value10:[],
           msg:"123",
           dialogTableVisible:false,
           filterText: '',
@@ -214,6 +227,10 @@ export default {
     goback:function (params) {
           this.$router.back(-1);
     },
+     getSelect: function () {
+            console.log(this.value10)
+        },
+
     //this three methods can drag doms but cant sort them 
     // drag:function(event){
     //     dom = event.currentTarget;
@@ -233,6 +250,9 @@ export default {
     // },
     refreshChart: function(index){
         bus.$emit('drawchart', index);
+    },
+    toEdit(index){
+        this.$router.push({name:'editChart', params:{index:index}});
     },
     getGridster:function(event){
         var app = this;

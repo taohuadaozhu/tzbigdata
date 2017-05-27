@@ -1,4 +1,5 @@
 import Login from '../modules/Login.vue'
+import Register from '../modules/register/register.vue'
 import NotFound from '../modules/404.vue'
 import Home from '../modules/Home.vue'
 import Main from '../modules/Main.vue'
@@ -14,6 +15,12 @@ let routes =[
     hidden:true
   },
   {
+    path:'/register',
+    component:Register,
+    name :'',
+    hidden:true
+  },
+  {
       path: '/404',
       component: NotFound,
       name: '',
@@ -23,11 +30,11 @@ let routes =[
   {
       path: '/nav',
       component: Home,
-      name: '导航一',
+      name :'',
       iconCls: 'el-icon-message',//图标样式class
       children: [
           { 
-            path: 'dashboard', component: Main, name: '主页', hidden: true, 
+            path: 'dashboard', component: Main, name: '', hidden: true, 
             children: [
               {
                 path: 'dash1',
@@ -40,8 +47,9 @@ let routes =[
                 component: resolve => require(['../modules/dashboard/'], resolve)
               },
               {
-                path: 'editChart',
+                path: 'editChart/:index',
                 meta: {auth: true},
+                name:'editChart',
                 component: EditChart
               }]
           },
