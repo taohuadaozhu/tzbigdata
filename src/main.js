@@ -19,6 +19,8 @@ import splitting from './modules/code-splitting-demo'
 import $ from 'jquery'
 import 'dsmorse-gridster/dist/jquery.gridster.min.css'
 import 'dsmorse-gridster'
+import axios from 'axios';
+
 
 
 
@@ -34,6 +36,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach(({meta, path}, from, next) => {
+  console.log(store.state.login.tokens)
   let {auth = true} = meta
   let isLogin = Boolean(store.state.login.tokens != '') //true用户已登录， false用户未登录
 
@@ -48,7 +51,7 @@ router.beforeEach(({meta, path}, from, next) => {
   next()
 })
 
-mock.start() //启动ajax mock服务
+// mock.start() //启动ajax mock服务
 
 splitting.start() //demo：运行webpack2 code splitting示例
 

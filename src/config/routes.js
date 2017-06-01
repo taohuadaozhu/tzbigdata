@@ -26,6 +26,12 @@ let routes =[
       name: '',
       hidden: true
   },
+  {
+      path:'/404',
+      component: NotFound,
+      name: '',
+      hidden: true
+  },
   //{ path: '/main', component: Main },
   {
       path: '/nav',

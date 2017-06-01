@@ -88,6 +88,7 @@
 </template>
 <script>
   import {mapGetters} from 'vuex'
+  import axios from 'axios'
   export default {
     data() {
       let checkName = (rule, value, callback) => {
@@ -156,14 +157,17 @@
         this.showLayer = index;
       },
       login(formName) {
-
+        
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.logining = true;
-            this.$store.dispatch('login', {name: this.user.name, pass: this.user.pass})
+           
+           this.$store.dispatch('login', {name: this.user.name, pass: this.user.pass})
           } else {
             return false;
           }
+
+
         });
       }
     }

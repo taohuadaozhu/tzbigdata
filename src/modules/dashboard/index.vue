@@ -154,7 +154,7 @@
             <a class="cursor-pointer edp-icon-wrap" @click="toEdit(index)" title="编辑">
                 <i class="edp-icon ico-edit"></i>
             </a>
-            <a class="cursor-pointer edp-icon-wrap" @click="refreshChart(index)" title="全屏">
+            <a class="cursor-pointer edp-icon-wrap" @click="gotoBigChart(index)" title="全屏">
                 <i class="edp-icon ico-fullscreen"></i>
             </a>
             <a class="cursor-pointer edp-icon-wrap" @click="refreshChart(index)" title="更多">
@@ -253,6 +253,9 @@ export default {
     },
     toEdit(index){
         this.$router.push({name:'editChart', params:{index:index}});
+    },
+    gotoBigChart:function(index){
+        this.$router.push({name:'bigChart', params:{index:index}});
     },
     getGridster:function(event){
         var app = this;

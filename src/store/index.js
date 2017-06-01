@@ -13,6 +13,7 @@ import * as getters from './getters'
 import menu from './modules/menu'
 import login from './modules/login'
 
+
 // 告诉 vue “使用” vuex
 Vue.use(Vuex)
 
