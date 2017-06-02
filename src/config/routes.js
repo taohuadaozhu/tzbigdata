@@ -4,8 +4,8 @@ import NotFound from '../modules/404.vue'
 import Home from '../modules/Home.vue'
 import Main from '../modules/Main.vue'
 import Table from '../modules/page1/index.vue'
-import Form from '../modules/page2/index.vue'
 import EditChart from '../modules/dashboard/editChart.vue'
+import Datasource from '../modules/data-source/index.vue'
 
 let routes =[
   {
@@ -60,7 +60,33 @@ let routes =[
               }]
           },
           { path: 'worktable', component: Table, name: 'Table' },
-          { path: 'datasource', component: Form, name: 'Form' }
+          { path: 'datasource', component: Datasource, name: 'datasource' },
+          { path: 'cost', component: Main, name: 'caiwu', hidden: true,  
+             children: [
+              {
+                path: 'people',
+                meta: {auth: true},
+                component: resolve => require(['../modules/caiwu/cost'], resolve)
+              },
+              {
+                path: 'project',
+                meta: {auth: true},
+                component: resolve => require(['../modules/caiwu/cost'], resolve)
+              }]
+          },
+          { path: 'income', component: Main, name: 'income', hidden: true,  
+             children: [
+              {
+                path: 'depart',
+                meta: {auth: true},
+                component: resolve => require(['../modules/caiwu/income'], resolve)
+              },
+              {
+                path: 'business',
+                meta: {auth: true},
+                component: resolve => require(['../modules/caiwu/income'], resolve)
+              }]
+          }
       ]
   },
   

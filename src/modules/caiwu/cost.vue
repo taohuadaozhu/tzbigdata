@@ -69,27 +69,15 @@
   .top-menu-item:hover {
     background-color: rgb(90, 197, 232);
   }
-  .container{
-      position: absolute;
-		top: 0px;
-		bottom: 0px;
-		width: 100%;
-  }
 </style>
 <template>
-<el-row class="container">
   <div class="main-wrapper main-sidebar-l" :class="{'sidebar-mini':menuIsFold}">
-    <Cnav></Cnav>
-    <router-view></router-view>
-   
+    <c-main></c-main>
   </div>
-  </el-row>
 </template>
 <script>
   import {mapGetters, mapActions} from 'vuex'
-  import CMenu from 'components/CMenu'
   import CMain from 'components/CMain'
-  import Cnav from 'components/Cnav'
 
   export default {
     computed: mapGetters([
@@ -97,13 +85,11 @@
       'tokens'
     ]),
     components: {
-      CMenu,
-      CMain,
-      Cnav
+      CMain
     },
     watch: {
       tokens: function (val) {
-        console.log(val+'12345');
+          console.log(val);
         if (val == '') {
           this.$router.push('/login');
         }

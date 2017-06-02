@@ -237,6 +237,7 @@
 <script>
   import menuConfig from '../config/menu'
   import {mapGetters, mapActions} from 'vuex'
+  import store from '../store'
   export default {
      computed: mapGetters([
       'menuIsFold'
@@ -245,13 +246,22 @@
       
       return {
         collapsed:false,
-        menus: menuConfig,
+        menus: menuConfig.data,
         showok:true,
         childrenShow:true,
        counter:1,
        settingShow:false
         
       }
+    },
+    mounted (){
+      if(store.state.login.tokens==="custom"){
+        
+        this.menus = menuConfig.caiwu;
+        console.log(this.menus)
+      
+      }
+      
     },
     methods:{
       ...mapActions([

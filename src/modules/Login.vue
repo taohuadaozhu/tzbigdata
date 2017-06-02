@@ -143,6 +143,7 @@
     ]),
     watch: {
       tokens: function (val) {
+        console.log(val+'12345');
         this.$router.push('/nav/dashboard/dash1');
       }
     },

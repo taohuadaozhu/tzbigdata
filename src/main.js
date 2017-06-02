@@ -11,7 +11,7 @@ import 'element-ui/lib/theme-default/index.css'
 
 import './css/common.css'
 import './css/iconfont.css'
-import mock from './apis/mock'
+// import mock from './apis/mock'
 
 import routes from './config/routes'
 import App from './App'
@@ -36,22 +36,30 @@ const router = new VueRouter({
 })
 
 router.beforeEach(({meta, path}, from, next) => {
-  console.log(store.state.login.tokens)
   let {auth = true} = meta
   let isLogin = Boolean(store.state.login.tokens != '') //true用户已登录， false用户未登录
-
+  // isLogin = true;
   if (auth && !isLogin && path !== '/login'&& path !== '/register') {
     return next({path: '/login'})
   }
 
+  console.log(path);
   if (isLogin && (path == '/login' || path == '/')) { //已登录过，则跳转到主页
-    return next({path: '/nav/dashboard/dash1'})
+    if(store.state.login.tokens==="custom"){
+      console.log('store.state.login.tokens::::::'+store.state.login.tokens);
+      return next({path: '/nav/cost/people'})
+    }else{
+      return next({path: '/nav/dashboard/dash1'})
+    }
+
+    
   }
 
   next()
 })
 
-// mock.start() //启动ajax mock服务
+//  mock.start() //启动ajax mock服务
+// mock.stop();
 
 splitting.start() //demo：运行webpack2 code splitting示例
 

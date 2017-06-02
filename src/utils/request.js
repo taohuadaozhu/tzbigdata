@@ -23,13 +23,11 @@ export default {
       }
     }
     return new Promise(function (resolve, reject) {
-      console.log(url);
       fetch(url, {
         method: 'GET',
         headers: headers,
       })
         .then((response) => {
-          console.log(response);
           if (response.ok) {
             return response.json();
           } else {

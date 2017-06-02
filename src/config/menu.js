@@ -1,8 +1,9 @@
 /**
  * Created by lichb on 2017/1/24.
  */
-export default [
+export default 
   {
+    data:[{
     name: '财务数据分析',
     children: [
       {
@@ -31,5 +32,33 @@ export default [
         path: '/env/page4'
       }
     ]
+  }],
+  caiwu:[
+    {
+    name: '成本分析',
+    children: [
+      {
+        name: '人力成本',
+        path: '/nav/cost/people'
+      }, {
+        name: '项目成本',
+        path: '/nav/cost/project'
+      }
+    ]
+  },
+  {
+    name: '收入分析',
+    children: [
+      {
+        name: '按部门',
+        path: '/nav/income/depart'
+      }, {
+        name: '按业务',
+        path: '/nav/income/business'
+      }
+    ]
   }
-]
+  ]
+
+  }
+

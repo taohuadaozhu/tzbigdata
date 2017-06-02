@@ -7,6 +7,7 @@ import tokens from '../../apis/tokens'
 // initial state
 const state = {
   tokens: '',
+  userid:'',
   getMineBaseMsg: {
     errno: 1,
     msg: {}
@@ -15,7 +16,8 @@ const state = {
 
 // getters
 const getters = {
-  tokens: state => state.tokens
+  tokens: state => state.tokens,
+  userid: state => state.userid
   // ,
   // getMineBaseMsg: state => state.getMineBaseMsg
 }
@@ -25,8 +27,7 @@ const actions = {
   login({commit, state}, user){
     tokens.getTokens(user.name, user.pass).then((data) => {
       //success
-      console.log(data);
-      commit(LOGIN_IN, {tokens: data.tokens})
+      commit(LOGIN_IN, {tokens: data.userName})
     }, (error) => {
       //fail
       console.log(error);
@@ -51,6 +52,7 @@ const actions = {
 //mutations
 const mutations = {
   [LOGIN_IN] (state, {tokens}) {
+    console.log(tokens)
     state.tokens = tokens
   },
   [LOGIN_OUT] (state) {
