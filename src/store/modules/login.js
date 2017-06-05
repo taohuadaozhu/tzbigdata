@@ -25,13 +25,14 @@ const getters = {
 //actions
 const actions = {
   login({commit, state}, user){
-    tokens.getTokens(user.name, user.pass).then((data) => {
+    return tokens.getTokens(user.name, user.pass).then((data) => {
       //success
       commit(LOGIN_IN, {tokens: data.userName})
+      
     }, (error) => {
       //fail
       console.log(error);
-      commit(LOGIN_IN, {tokens: ''})
+      commit(LOGIN_IN, {tokens: 'error'})
     })
   },
   logout({commit}){

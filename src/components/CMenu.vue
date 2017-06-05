@@ -228,8 +228,8 @@
    
 
     <div class="nav-setting" v-show="settingShow">
-    <div class="setting-item"><span>创建子菜单</span></div>
-    <div class="setting-item"><span>重命名</span></div>
+    <div class="setting-item"><span @click="open1">创建子菜单</span></div>
+    <div class="setting-item"><span @click="open2">重命名</span></div>
     <div class="setting-item"><span>删除</span></div>
     </div>
   </nav>
@@ -287,7 +287,7 @@
         }else{
           this.counter=index;
           this.settingShow=true;
-          $(".nav-setting").css("top",(event.clientY-60)+"px").css("left",(event.clientX-18)+"px");
+          $(".nav-setting").css("top",(event.clientY-60)+"px").css("left",(event.clientX-28)+"px");
         }
         
         
@@ -309,22 +309,65 @@
         }
         
       },
-      open3() {
-        this.$prompt('请输入类目名称', '', {
+       open1() {
+        this.$prompt('请输入子类目名称', '', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
-          
-          inputErrorMessage: '邮箱格式不正确'
+          inputPattern: '',
+          inputErrorMessage: ''
         }).then(({ value }) => {
-          this.$message({
-            type: 'success',
-            message: '你的邮箱是: ' + value
-          });
+          // this.$message({
+          //   type: 'success',
+          //   message: '你的邮箱是: ' + value
+          // });
         }).catch(() => {
           this.$message({
             type: 'info',
             message: '取消输入'
           });       
+        });
+      },
+      open2() {
+        this.$prompt('请输入新名称', '', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          inputPattern: '',
+          inputErrorMessage: ''
+        }).then(({ value }) => {
+          // this.$message({
+          //   type: 'success',
+          //   message: '你的邮箱是: ' + value
+          // });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '取消输入'
+          });       
+        });
+      },
+      open3() {
+        this.$prompt('请输入类目名称', '', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          
+          inputErrorMessage: '类目名称不正确'
+        }).then(({ value }) => {
+          //添加新类目
+          let obj = {
+            name:value,
+            children:[]
+          };
+          this.menus.push(obj);
+
+          // this.$message({
+          //   type: 'success',
+          //   message: '你的邮箱是: ' + value
+          // });
+        }).catch(() => {
+          // this.$message({
+          //   type: 'info',
+          //   message: '取消输入'
+          // });       
         });
       }
     }

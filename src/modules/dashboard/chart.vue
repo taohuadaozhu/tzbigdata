@@ -19,7 +19,7 @@ export default {
     props: ['indexvalue'],
     data() {
       return {
-        
+        imageUrl:'',
         datay:[5, 20, 36, 10, 10, 20],
         datax:["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
       }
@@ -45,6 +45,9 @@ export default {
               data: this.datay
           }]
       });
+      this.imageUrl= myChart.getDataURL()
+      
+
     }
 },
  mounted (){

@@ -157,7 +157,7 @@
             <a class="cursor-pointer edp-icon-wrap" @click="gotoBigChart(index)" title="全屏">
                 <i class="edp-icon ico-fullscreen"></i>
             </a>
-            <a class="cursor-pointer edp-icon-wrap" @click="refreshChart(index)" title="更多">
+            <a class="cursor-pointer edp-icon-wrap" @click="exportChart(index)" title="更多">
                 <i class="edp-icon ico-more"></i>
             </a>
         </div>
@@ -178,6 +178,7 @@
 import workTableTree from '../../components/workTableTree'
 import childChart from './chart.vue'
 import { bus } from './bus.vue'
+
 let dom = null
 
 export default {
@@ -248,6 +249,9 @@ export default {
     // allowDrop:function(event){
     //     event.preventDefault();
     // },
+    exportChart:function(index){
+
+    },
     refreshChart: function(index){
         bus.$emit('drawchart', index);
     },

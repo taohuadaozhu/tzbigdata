@@ -49,6 +49,7 @@
     .tab:hover{ border-bottom: 3px solid skyblue;color: skyblue;}
     .tab-right{margin-left: 25px;}
     .tab-active{ border-bottom: 3px solid skyblue;color: skyblue;}
+    .errmsg{color: red;}
 </style>
 <template>
 <el-form :model="user" :rules="rules" ref="loginForm" label-position="left" label-width="0px" label-suffix="：" class="demo-ruleForm login-container">
@@ -77,6 +78,7 @@
       <el-button>发送手机验证码</el-button>
     </el-form-item>
   </div>
+  <label class="errmsg" v-if="showAlert">{{showText}}</label>
   <el-form-item >
       <el-button class="btn" type="primary" @click.native.prevent="login('loginForm')" :loading="logining">登录</el-button>
     </el-form-item>
@@ -89,6 +91,8 @@
 <script>
   import {mapGetters} from 'vuex'
   import axios from 'axios'
+  import request from '../utils/request'
+  import store from '../store'
   export default {
     data() {
       let checkName = (rule, value, callback) => {
@@ -100,7 +104,7 @@
             //验证邮箱
             if(!/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test(value)){
               //验证用户名
-              if(!/^[\w|\d]{4,16}$/.test(value)){
+              if(!/^[\w|\d]{4,20}$/.test(value)){
                 return  callback(new Error('非法用户名！'));
               }else{
                 callback();
@@ -121,7 +125,9 @@
       };
       return {
         logining: false,
+        showText:'',
         checked: true,
+        showAlert:false,
         showLayer:1,
         user: {
           name: '',
@@ -143,8 +149,17 @@
     ]),
     watch: {
       tokens: function (val) {
-        console.log(val+'12345');
-        this.$router.push('/nav/dashboard/dash1');
+        this.logining = false;
+        if(val==='error'){
+          this.showAlert = true;
+          this.showText ="请求错误！";
+          }else if(val){
+          this.$router.push('/nav/dashboard/dash1');
+        }else{
+          this.showAlert = true;
+          this.showText ="用户名或密码错误！";
+        }
+        
       }
     },
     methods: {
@@ -158,13 +173,30 @@
         this.showLayer = index;
       },
       login(formName) {
-        
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.logining = true;
+            // request.get('http://192.168.31.234:8080/customLogin',{'username':this.user.name,'password':this.user.pass}).then((data) => {
+            //   if(data.userName){
+            //   }else{
+            //     this.showAlert = true;
+            //     this.showText =data.errorMsg;
+            //   }
+            //   this.logining = false;
+            // }, (error) => {
+            //   //fail
+            //   this.logining = false;
+            //   this.showAlert = true;
+            //   this.showText ="请求错误！";
+            //   console.log(error);
+            // })
+            
+           this.$store.dispatch('login', {name: this.user.name, pass: this.user.pass}).then(() => {
+             this.logining = false;
+           });
            
-           this.$store.dispatch('login', {name: this.user.name, pass: this.user.pass})
           } else {
+            this.logining = false;
             return false;
           }
 

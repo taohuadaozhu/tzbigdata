@@ -20,6 +20,7 @@ import $ from 'jquery'
 import 'dsmorse-gridster/dist/jquery.gridster.min.css'
 import 'dsmorse-gridster'
 import axios from 'axios';
+require('./assets/jspdf.debug.js')
 
 
 
