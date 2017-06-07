@@ -1,13 +1,14 @@
 /**
  * Created by lichb on 2017/2/7.
  */
-import {LOGIN_IN, LOGIN_OUT} from '../mutation-types'
+import {LOGIN_IN, LOGIN_OUT,CHANGE_TAG} from '../mutation-types'
 import tokens from '../../apis/tokens'
 
 // initial state
 const state = {
   tokens: '',
   userid:'',
+  nowtag:'dash',
   getMineBaseMsg: {
     errno: 1,
     msg: {}
@@ -17,7 +18,8 @@ const state = {
 // getters
 const getters = {
   tokens: state => state.tokens,
-  userid: state => state.userid
+  userid: state => state.userid,
+  nowtag: state => state.nowtag
   // ,
   // getMineBaseMsg: state => state.getMineBaseMsg
 }
@@ -58,6 +60,9 @@ const mutations = {
   },
   [LOGIN_OUT] (state) {
     state.tokens = ''
+  },
+  CHANGE_TAG (state,path) {
+    state.nowtag = path
   }
   // ,
   // [types.GET_BASE_API](state, res) {

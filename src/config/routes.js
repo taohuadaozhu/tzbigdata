@@ -60,7 +60,16 @@ let routes =[
               }]
           },
           { path: 'worktable', component: Table, name: 'Table' },
-          { path: 'datasource', component: Datasource, name: 'datasource' },
+          { path: 'datasource', component: Main, name: 'datasource',hidden:true,
+            children:[
+              {
+                path:'source1',
+                meta:{auth:true},
+                component:resolve => require(['../modules/data-source/'], resolve)
+
+              }
+            ]
+          },
           { path: 'cost', component: Main, name: 'caiwu', hidden: true,  
              children: [
               {

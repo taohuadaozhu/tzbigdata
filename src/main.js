@@ -20,14 +20,16 @@ import $ from 'jquery'
 import 'dsmorse-gridster/dist/jquery.gridster.min.css'
 import 'dsmorse-gridster'
 import axios from 'axios';
-require('./assets/jspdf.debug.js')
+var VueEditable= require('../static/js/vue-editable.js');
+
+
 
 
 
 
 Vue.use(VueRouter) //路由注册
 Vue.use(ElementUI) //UI框架注册
-
+Vue.use(VueEditable);
 
 
 // 3. 创建 router 实例，然后传 `routes` 配置
@@ -39,12 +41,11 @@ const router = new VueRouter({
 router.beforeEach(({meta, path}, from, next) => {
   let {auth = true} = meta
   let isLogin = Boolean(store.state.login.tokens != '') //true用户已登录， false用户未登录
-  // isLogin = true;
+   isLogin = true;
   if (auth && !isLogin && path !== '/login'&& path !== '/register') {
     return next({path: '/login'})
   }
 
-  console.log(path);
   if (isLogin && (path == '/login' || path == '/')) { //已登录过，则跳转到主页
     if(store.state.login.tokens==="custom"){
       console.log('store.state.login.tokens::::::'+store.state.login.tokens);

@@ -102,7 +102,7 @@
 .bdp-icon-wrap>.bdp-icon {
     margin-top: -2px;
 }
-.ico-refresh,.ico-edit,.ico-more,.ico-fullscreen{
+.ico-refresh,.ico-edit,.ico-more,.ico-fullscreen,.ico-ok,.ico-cancel{
     opacity: 1;
     display: inline-block;
         vertical-align: middle;
@@ -133,6 +133,7 @@
 <template>
 <div class="container">
   <el-button class="newbtn" @click="dialogTableVisible = true">新建图表</el-button>
+  <el-button class="newbtn" @click="exportChart()">导出PDF</el-button>
   <el-select v-model="value10" placeholder="请选择" v-on:change="getSelect()">
     <el-option
       v-for="item in options" :key="item.value" :label="item.label"  :value="item.value">
@@ -178,6 +179,8 @@
 import workTableTree from '../../components/workTableTree'
 import childChart from './chart.vue'
 import { bus } from './bus.vue'
+// require('../../../static/js/html2canvas.js')
+// require('../../../static/js/jspdf.debug.js')
 
 let dom = null
 
@@ -250,7 +253,19 @@ export default {
     //     event.preventDefault();
     // },
     exportChart:function(index){
-
+         html2canvas($('#charts'), {  
+        height:5000,  
+        onrendered: function(canvas) {           
+            var imgData = canvas.toDataURL('img/notice/png');  
+            var doc = new jsPDF('p', 'px','a3');  
+            //第一列 左右边距  第二列上下边距  第三列是图片左右拉伸  第四列 图片上下拉伸  
+            doc.addImage(imgData, 'PNG', -9, 0,650,1500);  
+            doc.addPage();  
+            doc.addImage(imgData, 'PNG', -9, -900,650,1500);  
+            doc.save('test.pdf');  
+        }  
+    });  
+        // bus.$emit('exportChart', index);
     },
     refreshChart: function(index){
         bus.$emit('drawchart', index);

@@ -240,8 +240,15 @@
   import store from '../store'
   export default {
      computed: mapGetters([
-      'menuIsFold'
+      'menuIsFold',
+      'nowtag'
     ]),
+    watch: {
+      nowtag: function (val) {
+        console.log(val);
+        this.getMenus();
+      }
+    },
     data () {
       
       return {
@@ -267,6 +274,10 @@
       ...mapActions([
       'toggleMenu'
       ]) ,
+      
+      getMenus: function(){
+        console.log(2222222);
+      },
       onSubmit() {
 				console.log('submit!');
 			},

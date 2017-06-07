@@ -98,8 +98,13 @@
         }
       }
     },
-    methods: mapActions([
-      'logout'
-    ])
+    methods:{ ...mapActions([
+        'logout'
+      ])
+    },
+    created (){
+      // console.log(this.$route);
+      
+    }
   }
 </script>

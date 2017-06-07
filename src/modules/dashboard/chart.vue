@@ -48,7 +48,14 @@ export default {
       this.imageUrl= myChart.getDataURL()
       
 
+    },
+    exportChart:function(index){
+      var doc = new jsPDF('p', 'px','a3');  
+      //第一列 左右边距  第二列上下边距  第三列是图片左右拉伸  第四列 图片上下拉伸  
+      doc.addImage(imageUrl, 'PNG', -9, 0,650,1500);  
+      doc.save('test.pdf'); 
     }
+
 },
  mounted (){
      let app = this;
@@ -61,6 +68,9 @@ export default {
     var app = this;
     bus.$on('drawchart',(index) =>{
         app.drawchart(index);
+    });
+    bus.$on('exportChart',(index) =>{
+        app.exportChart(index);
     });
   }
   };

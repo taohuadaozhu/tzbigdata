@@ -7,4 +7,5 @@ export const TOGGLE_MAIN_MENU = 'menu/TOGGLE_MAIN_MENU'
 //登录
 export const LOGIN_IN = 'login/LOGIN_IN'
 export const LOGIN_OUT = 'login/LOGIN_OUT'
+export const CHANGE_TAG = 'nav/CHANGE_TAG'
 
