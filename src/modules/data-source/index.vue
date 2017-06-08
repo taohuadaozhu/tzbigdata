@@ -23,7 +23,7 @@
     cursor: pointer;
   }
   .edit-input{
-    width:70%;background:transparent;font-size:13px;
+    width:150px;background:transparent;font-size:13px;
     border:0;border-bottom:1 solid black;
   }
   td
@@ -34,100 +34,42 @@
     width:auto;
     min-width:100%;
     max-width:auto;
+    table-layout: auto;
   }
-  td>div{
-
-  }
+ .el-upload__tip p :hover{
+   color: red;
+ }
 </style>
 <template>
 <div class="container">
-<el-upload
-  class="upload-demo"
-  action="http://192.168.31.234:8080/console/batchImport"
-  :on-preview="handlePreview"
-  :on-remove="handleRemove"
-  :file-list="fileList">
-  <el-button size="small" type="primary">点击上传</el-button>
-  <div slot="tip" class="el-upload__tip">只能上传excel文件，且不超过</div>
-</el-upload>
-<table>
-    <tr v-for="user in tableData">
-        <td class="text center" @dblclick="editable($event,'name',user)">{{user['name']}}</td>
+  <el-upload
+    class="upload-demo"
+    action="http://192.168.31.234:8080/console/batchImport"
+    :on-preview="handlePreview"
+    :on-remove="handleRemove"
+    :file-list="fileList">
+    <el-button size="small" type="primary">点击上传</el-button>
+    <div slot="tip" class="el-upload__tip"><span>只能上传excel文件，且不超过</span><p> for hover test</p></div>
+  </el-upload>
+  <table>
+    <tr v-for="(data,index) in tableData1" @click ="rowClick(index)">
+      <td><div>{{index+1}}</div>
+      <div v-show="editTr===index">表头</div>
+      </td>
+        <td class="text center" v-for="(item,indexTd) in data" @mouseover ="tdMouseOver(indexTd)">
+         
+          <div v-show="!(editTr===index&&editTd===indexTd)" style="margin-left: 10px;float:left;">{{item}}</div>
+          <div ></div>
+
+          <i class="el-icon-edit"  v-show="editTr===index&&editTd!=indexTd&&overTd===indexTd" style="cursor:pointer;float:right" @click.stop="handleEdit(indexTd)" ></i>
+          <div  v-if="editTr===index&&editTd===indexTd">
+            <input class="edit-input" type='text' :value="item" id='_editable' >
+            <a class="edp-icon-wrap " title="确定" @click.stop="saveEdit()" >y</a>
+            <a class="edp-icon-wrap " title="取消" @click.stop="cancelEdit()" >n</a>
+          </div>
+        </td>
     </tr>
-    </table>
-
-    <el-table
-    ref="singleTable"
-    :data="tableData"
-    stripe
-    
-    width="auto"
-    :current-row-key=2
-    :highlight-current-row=true
-    :show-header= false
-    @row-click ="rowClick">
-    <!--<el-table-column
-      prop="num"
-      width="50">
-    </el-table-column>
-    <el-table-column
-      prop="date"
-      label="日期"
-      width="180">
-    </el-table-column>-->
-    <el-table-column v-for="item in tableTitle"
-      prop="item"
-      label="姓名"
-      min-width="50">
-      <template scope="scope" >
-        <i class="el-icon-edit" v-show="isEdit===scope.$index&&nowColumn!=scope.column.id" style="cursor:pointer" @click.stop="handleEdit(scope.$index, scope.row, scope.column)" ></i>
-        <span v-show="!(isEdit===scope.$index&&nowColumn===scope.column.id)" style="margin-left: 10px">{{ scope.row[item] }}</span>
-        <div v-if="isEdit===scope.$index&&nowColumn===scope.column.id">
-          <input class="edit-input" type='text' :value="scope.row[item]" id='_editable' >
-          <a class="edp-icon-wrap " title="确定" @click.stop="saveEdit()" >y</a>
-          <a class="edp-icon-wrap " title="取消" @click.stop="cancelEdit()" >n</a>
-        </div>
-        
-      </template>
-    </el-table-column>
-    <el-table-column v-for="item in tableTitle"
-      prop="item"
-      label="姓名"
-      min-width="50"
-      >
-      <template scope="scope" >
-        <i class="el-icon-edit" v-show="isEdit===scope.$index&&nowColumn!=scope.column.id" style="cursor:pointer" @click.stop="handleEdit(scope.$index, scope.row, scope.column)" ></i>
-        <span v-show="!(isEdit===scope.$index&&nowColumn===scope.column.id)" style="margin-left: 10px">{{ scope.row[item] }}</span>
-        <div v-if="isEdit===scope.$index&&nowColumn===scope.column.id">
-          <input class="edit-input" type='text' :value="scope.row[item]" id='_editable' >
-          <a class="edp-icon-wrap " title="确定" @click.stop="saveEdit()" >y</a>
-          <a class="edp-icon-wrap " title="取消" @click.stop="cancelEdit()" >n</a>
-        </div>
-        
-      </template>
-    </el-table-column>
-
-    <el-table-column v-for="item in tableTitle"
-      prop="item"
-      label="姓名"
-      min-width="50">
-      <template scope="scope" >
-        <i class="el-icon-edit" v-show="isEdit===scope.$index&&nowColumn!=scope.column.id" style="cursor:pointer" @click.stop="handleEdit(scope.$index, scope.row, scope.column)" ></i>
-        <span v-show="!(isEdit===scope.$index&&nowColumn===scope.column.id)" style="margin-left: 10px">{{ scope.row[item] }}</span>
-        <div v-if="isEdit===scope.$index&&nowColumn===scope.column.id">
-          <input class="edit-input" type='text' :value="scope.row[item]" id='_editable' >
-          <a class="edp-icon-wrap " title="确定" @click.stop="saveEdit()" >y</a>
-          <a class="edp-icon-wrap " title="取消" @click.stop="cancelEdit()" >n</a>
-        </div>
-        
-      </template>
-    </el-table-column>
-    <!--<el-table-column
-      prop="address"
-      label="地址">
-    </el-table-column>-->
-  </el-table>
-
+  </table>
   </div>
 </template>
 <script>
@@ -135,8 +77,9 @@
 export default {
     data() {
       return {
-        isEdit:0,
-        nowColumn:'',
+        editTr:0,
+        editTd:-1,
+        overTd:-1,
         tableTitle:['num','date','name','address'],
         tableData: [{
           num:0,
@@ -159,6 +102,23 @@ export default {
           name: '王小虎',
           address: '上海市普陀区金沙江路 1516 弄'
         }],
+        tableData1:[
+        [
+          "hehe0",
+          "hehe1",
+          "hehe2"
+        ],
+        [
+          "hehe0",
+          "hehe1",
+          "hehe2"
+        ],
+        [
+          "titlehehe0上海市普陀区金沙江路 ",
+          "titlehehe1",
+          "titlehehe2上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄"
+        ]
+      ],
         fileList: [{name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}, {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}]
       };
     },
@@ -169,20 +129,24 @@ export default {
       handlePreview(file) {
         console.log(file);
       },
-      handleEdit(index, row,column) {
-        this.nowColumn = column.id;
-        console.log(index, row,column);
+      tdMouseOver(index) {
+        this.overTd =index;
+      },
+      handleEdit(index) {
+        this.editTd = index;
       },
       saveEdit:function(){
-        this.nowColumn='';
+        this.editTd=-1;
+        this.overTd=-1;
       },
       cancelEdit:function(){
-        this.nowColumn='';
+        this.editTd=-1;
+        this.overTd=-1;
       },
-      rowClick:function(row,event,column){
-        this.$refs.singleTable.setCurrentRow(row);
-        console.log(column.id);
-        this.isEdit = row.num;
+      rowClick:function(index){
+        // this.$refs.singleTable.setCurrentRow(row);
+        // console.log(column.id);
+        this.editTr = index;
 
         // this.isEdit++;
         // console.log(row);
