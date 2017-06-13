@@ -30,10 +30,10 @@
 <template>
  <div>
      <div>
-         <table id="tableTitle">
+         <table >
              <thead>
-                 <tr>
-                     <td v-for="(item,index) in tableTitle" :width="getWidth(index)">{{item.name}}</td>
+                 <tr id="tableTitles">
+                     <td v-for="(item,index) in tableTitle" >{{item.name}}</td>
                  </tr>
              </thead>
          </table>
@@ -47,7 +47,7 @@
              </thead>
              <tbody>
                 <tr v-for="(data,index) in tableData3" @click ="rowClick(index)">
-                    <td class="text center" v-for="(item,indexTd) in data" @mouseover ="tdMouseOver(indexTd)">
+                    <td class="text center" v-for="(item,indexTd) in data" >
                         <div  style="margin-left: 10px;float:left;">{{item}}</div>
                     </td>
                 </tr>
@@ -72,11 +72,11 @@
             [
             "hehe0",
             "hehe1",
-            "hehe2"
+            "hehe2tlehehe0上海市普陀区金"
           ],
           [
             "hehe0",
-            "hehe1",
+            "hehe1tlehehe0上海市普陀区金",
             "hehe2"
           ],
           [
@@ -89,13 +89,13 @@
     },
     computed:{
       getWidth:function(index){
-          //console.log($("#dataDetail").children());
-        //console.log(document.getElementById("detailTitle").childNodes[index]);
         return "120px";
       }
     },
     mounted (){
-        
+        $.each($("#detailTitle").children(),function(i,item){
+            $($("#tableTitles").children()[i]).css("width",$(item).css("width"));
+        })
     },
     methods:mapActions([
       'toggleMenu'
