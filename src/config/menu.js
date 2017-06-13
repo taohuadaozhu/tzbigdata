@@ -58,6 +58,20 @@ export default
       }
     ]
   }
+  ],
+  datasource:[
+    {
+    name: '数据源一',
+    children: [
+      {
+        name: '一个sheet',
+        path: '/nav/datasource/data'
+      }, {
+        name: '项目成本',
+        path: '/nav/cost/project'
+      }
+    ]
+  }
   ]
 
   }

@@ -41,7 +41,7 @@ const router = new VueRouter({
 router.beforeEach(({meta, path}, from, next) => {
   let {auth = true} = meta
   let isLogin = Boolean(store.state.login.tokens != '') //true用户已登录， false用户未登录
-  //  isLogin = true;
+   isLogin = true;
   if (auth && !isLogin && path !== '/login'&& path !== '/register') {
     return next({path: '/login'})
   }

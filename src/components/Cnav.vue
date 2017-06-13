@@ -86,7 +86,7 @@ html,body{
 
    <ul class="nav-ul">
      <li v-for="item in menus">
-     <router-link :to="{path:item.path,params:item.query}" @click.native="changeTag(item.path)">
+     <router-link :to="{path:item.path,params:item.query}" @click.native="changeTag(item.classify)">
      <div class="nav-item-title">{{ item.text}}</div>
      </router-link></li>
    </ul> 
@@ -105,9 +105,9 @@ html,body{
 </template>
 <script>
 var  navList=[
-			{text:'仪表盘',path:'/nav/dashboard/dash1',query:{data:'dashboard'}},
+			{text:'仪表盘',path:'/nav/dashboard/dash1',classify:'dashboard'},
 			{text:'工作表',path:'/nav/worktable'},
-			{text:'数据源',path:'/nav/datasource/source1',query:{data:'datasource'}},
+			{text:'数据源',path:'/nav/datasource/source1',classify:'datasource'},
       {text:'模板库',path:'/nav/modellib'}
 		]
 export default {
@@ -125,8 +125,8 @@ export default {
       logout:function(){
         this.$store.dispatch('logout')
       },
-      changeTag:function(path){
-        this.$store.commit("CHANGE_TAG",path)
+      changeTag:function(value){
+        this.$store.commit("CHANGE_TAG",value)
       }
     }
   }

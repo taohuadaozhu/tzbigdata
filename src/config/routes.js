@@ -65,7 +65,13 @@ let routes =[
               {
                 path:'source1',
                 meta:{auth:true},
-                component:resolve => require(['../modules/data-source/'], resolve)
+                component:resolve => require(['../modules/data-source/index'], resolve)
+
+              },
+              {
+                path:'data',
+                meta:{auth:true},
+                component:resolve => require(['../modules/data-source/data'], resolve)
 
               }
             ]

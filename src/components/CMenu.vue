@@ -246,7 +246,7 @@
     watch: {
       nowtag: function (val) {
         console.log(val);
-        this.getMenus();
+        this.getMenus(val);
       }
     },
     data () {
@@ -275,8 +275,11 @@
       'toggleMenu'
       ]) ,
       
-      getMenus: function(){
-        console.log(2222222);
+      getMenus: function(val){
+        if(val==="datasource"){
+          this.menus = menuConfig.datasource;
+        }
+        
       },
       onSubmit() {
 				console.log('submit!');
