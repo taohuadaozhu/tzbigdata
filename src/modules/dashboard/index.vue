@@ -212,11 +212,12 @@ export default {
           showOperate:false,
           focusIndex:0,
           itemPosition:[
-              {row:"1",colu:"1",sizex:"4",sizey:"3"},
-          {row:"1",colu:"5",sizex:"3",sizey:"2"},
-          {row:"3",colu:"1",sizex:"2",sizey:"2"},
-          {row:"3",colu:"2",sizex:"1",sizey:"2"},
-          {row:"3",colu:"2",sizex:"1",sizey:"2"}]
+            {row:"1",colu:"1",sizex:"4",sizey:"3"},
+            {row:"1",colu:"5",sizex:"3",sizey:"2"},
+            {row:"3",colu:"1",sizex:"2",sizey:"2"},
+            {row:"3",colu:"2",sizex:"1",sizey:"2"},
+            {row:"3",colu:"2",sizex:"1",sizey:"2"}
+          ]
       }
         },
   methods: {
