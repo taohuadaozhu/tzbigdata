@@ -7,7 +7,10 @@ body {
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
 }
-
+body,html{
+  margin: 0;
+  padding: 0;
+}
 ::-webkit-scrollbar {
   width: 4px;
   height: 10px;
@@ -24,7 +27,7 @@ body {
 
 a {
   text-decoration: none;
-  color: #3074bd;
+  color: #1F6AAD;
   cursor: pointer;
 }
 

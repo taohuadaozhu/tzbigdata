@@ -1,4 +1,5 @@
 import Login from '../modules/Login.vue'
+import NewPass from '../modules/NewPass.vue'
 import Register from '../modules/register/register.vue'
 import NotFound from '../modules/404.vue'
 import Home from '../modules/Home.vue'
@@ -11,6 +12,12 @@ let routes =[
   {
     path:'/login',
     component:Login,
+    name :'',
+    hidden:true
+  },
+  {
+    path:'/newPass',
+    component:NewPass,
     name :'',
     hidden:true
   },

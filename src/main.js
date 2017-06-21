@@ -37,25 +37,29 @@ const router = new VueRouter({
   mode:'history',
   routes // （缩写）相当于 routes: routes
 })
-
+//这是一个路由钩子，所有的路由验证都通过这里，而前端只要写脚本把islogin变量改为true就可以访问其他数据界面
+//这样做是否安全，是否应由不同的login.html register.html等不同界面，然后交由后台验证，待考虑----shi20170621
 router.beforeEach(({meta, path}, from, next) => {
+  console.log(window.location)
   let {auth = true} = meta
   let isLogin = Boolean(store.state.login.tokens != '') //true用户已登录， false用户未登录
-   isLogin = true;
-  if (auth && !isLogin && path !== '/login'&& path !== '/register') {
-    return next({path: '/login'})
-  }
+  //  isLogin = true;
+  if(path!=='/newPass'){
+     if (auth && !isLogin && path !== '/login'&& path !== '/register') {
+        return next({path: '/login'})
+      }
 
-  if (isLogin && (path == '/login' || path == '/')) { //已登录过，则跳转到主页
-    if(store.state.login.tokens==="custom"){
-      console.log('store.state.login.tokens::::::'+store.state.login.tokens);
-      return next({path: '/nav/cost/people'})
-    }else{
-      return next({path: '/nav/dashboard/dash1'})
-    }
+      if (isLogin && (path == '/login' || path == '/')) { //已登录过，则跳转到主页
+        if(store.state.login.tokens==="custom"){
+          return next({path: '/nav/cost/people'})
+        }else{
+          return next({path: '/nav/dashboard/dash1'})
+        }
 
-    
+        
+      }
   }
+ 
 
   next()
 })
