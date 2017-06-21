@@ -26,9 +26,9 @@
   }
 
   .main-sidebar-l.sidebar-mini .main-sidebar {
-    -webkit-transform: translateX(-170px) translateY(0) translateZ(0);
-    -ms-transform: translateX(-170px) translateY(0);
-    transform: translateX(-170px) translateY(0) translateZ(0)
+    -webkit-transform: translateX(-162px) translateY(0) translateZ(0);
+    -ms-transform: translateX(-162px) translateY(0);
+    transform: translateX(-162px) translateY(0) translateZ(0)
   }
 
   .main-sidebar-l .main-sidebar .sidebar-content {
@@ -181,16 +181,28 @@
     color: black;
   }
   .sidebar-top{
-    height: 30px;
+    line-height: 30px;
     margin-bottom: 10px;
     background-color: aliceblue;
   }
+  .iconss{
+    overflow: hidden;
+    opacity: 0.6;
+  }
+  .sidebar-top .iconss > span {
+    color: #666666;
+    font-weight: 700;
+    font-size: 14px;
+    margin-left: 15px;
+  }
   .sidebar-top i{
     float: right;
-    margin:10px 10px 0 0;
+    font-size: 15px;
+    line-height: 30px;
+    margin-right:10px;
   }
-  .iconss{
-    opacity: 0.6;
+  .sidebar-top a >i{
+    font-size: 23px;
   }
   .iconss:hover{
     opacity: 1;
@@ -203,8 +215,10 @@
   <nav class="main-sidebar">
     <div class="sidebar-scroll">
        <div class="sidebar-top">
-       <div class="iconss"><i class="el-icon-plus" @click="open3" title="新建类目" ></i>
+       <div class="iconss">
+        <span>驾驶舱</span>
         <a @click="toggleMenu" class="fr"><i class="v2 icon-toggle-menu" :class="{'v2-slidebar-packup':!menuIsFold,'v2-slidebar-packup-copy':menuIsFold}"></i></a>
+        <i class="el-icon-plus" @click="open3" title="新建类目" ></i>
        </div>
          
          <!--<i class="el-icon-arrow-up" v-if="showok" v-on:click="arrowup()" ></i>
@@ -216,7 +230,7 @@
 					 unique-opened router v-show="!collapsed">
 					<template v-for="(item,index) in menus" v-if="!item.hidden">
 						<el-submenu :index="index+''" v-if="!item.leaf">
-							<template slot="title">{{item.name}} <i  class="el-icon-setting" style="    float: right; margin-top: 22px;margin-right:15px;" @click.stop="openSetting($event,index)" ></i>
+							<template slot="title">{{item.name}}<i class="el-icon-setting" style="float: right;margin: 20px;" @click.stop="openSetting($event,index)"></i>
                 </template>
 							<el-menu-item v-for="child in item.children" :index="child.path" :key="child.path" v-if="!child.hidden">{{child.name}}</el-menu-item>
 						</el-submenu>

@@ -34,7 +34,7 @@ Vue.use(VueEditable);
 
 // 3. 创建 router 实例，然后传 `routes` 配置
 const router = new VueRouter({
-  mode:'history',
+  // mode:'history',
   routes // （缩写）相当于 routes: routes
 })
 //这是一个路由钩子，所有的路由验证都通过这里，而前端只要写脚本把islogin变量改为true就可以访问其他数据界面

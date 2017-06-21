@@ -64,6 +64,12 @@ let routes =[
                 meta: {auth: true},
                 name:'editChart',
                 component: EditChart
+              },
+              {
+                path: 'bigChart/:index',
+                meta: {auth: true},
+                name:'bigChart',
+                component: resolve => require(['../modules/dashboard/bigChart.vue'], resolve)
               }]
           },
           { path: 'worktable', component: Table, name: 'Table' },
