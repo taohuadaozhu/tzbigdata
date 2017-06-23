@@ -1,7 +1,6 @@
 <style scoped>
   .main-container {
     position: absolute;
-    z-index: 2001;
     top: 70px;
     left: 230px;
     right: 0;
@@ -16,19 +15,10 @@
     left: 60px;
   }
 
-  /* 顶部通知 */
-  .top-notice {
-    padding: 0;
-    min-width: 730px;
-    background-color: #fff;
-    height: 30px;
-    line-height: 30px;
-  }
-
   .sdp-container-scroll {
     position: absolute;
     width: auto;
-    top: 38px;
+    top: 0;
     bottom: 8px;
     left: 8px;
     right: 8px;
@@ -45,30 +35,6 @@
     min-width: 763px;
   }
 
-  .top-notice i.icon-toggle-menu {
-    border-right: 1px solid #ebebeb;
-    padding: 0 10px;
-    display: inline-block;
-    color: #999999;
-    cursor: pointer;
-    font-size: 20px;
-  }
-
-  .top-notice .icon-notice {
-    font-weight: 800;
-    color: #32353a;
-    font-size: 14px;
-    margin-left: 5px;
-    position: relative;
-  }
-
-  .top-notice .icon-notice i {
-    font-weight: normal;
-    margin-right: 5px;
-    font-size: 20px;
-    color: #999999;
-    float: left;
-  }
   .newbtn{
     float: right;
     margin-right: 20px;

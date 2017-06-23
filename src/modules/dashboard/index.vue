@@ -1,31 +1,5 @@
-<style scoped>
-.el-row {
-    margin-bottom: 20px;
-    
-  }
-  .el-row last-child {
-      margin-bottom: 0;
-    }
-  .el-col {
-    border-radius: 4px;
-  }
-  .bg-purple-dark {
-    background: #99a9bf;
-  }
-  .bg-purple {
-    background: #d3dce6;
-  }
-  .bg-purple-light {
-    background: #e5e9f2;
-  }
-  .grid-content {
-    border-radius: 4px;
-    min-height: 36px;
-  }
-  .row-bg {
-    padding: 10px 0;
-    background-color: #f9fafc;
-  }
+<style lang="scss" scoped="" type="text/css">
+
   .container{
     width:100%;
     height: 100%;
@@ -129,16 +103,41 @@
     width: 16px;
     height: 16px;
 }
+.toolbox{
+    width: 100%;
+    height: 30px;
+    h2{
+        float: left;
+        margin: 0;
+        margin-top: 10px;
+        margin-left: 30px;
+        font-family: 微软雅黑;
+    }
+    &>div{
+        float: right;
+        margin: 15px 15px;
+    }
+    span{
+        opacity: 0.8;
+       
+        cursor: pointer;
+    }
+    span:hover{
+        opacity: 1;
+    }
+}
 </style>
 <template>
 <div class="container">
-  <el-button class="newbtn" @click="dialogTableVisible = true">新建图表</el-button>
-  <el-button class="newbtn" @click="exportChart()">导出PDF</el-button>
-  <el-select v-model="value10" placeholder="请选择" v-on:change="getSelect()">
-    <el-option
-      v-for="item in options" :key="item.value" :label="item.label"  :value="item.value">
-    </el-option>
-  </el-select>
+    <div class="toolbox">
+        <h2>二级标题</h2>
+        <div @click="exportChart"><span>导出PDF</span></div>
+        <div  @click="openAddChartPanel"><span>新建图表</span></div>
+        
+        
+    </div>
+  
+  
   <div id="charts">
 <div class="gridster">
     <ul class="grids" >
@@ -167,7 +166,8 @@
 
 </div>
   </div>
-    <el-dialog title="添加图表" :visible.sync="dialogTableVisible">
+    <el-dialog title="添加图表" :visible.sync="dialogTableVisible"
+    :modal-append-to-body=false>
         <template>
           <workTableTree></workTableTree>
         </template>
@@ -221,6 +221,10 @@ export default {
       }
         },
   methods: {
+      openAddChartPanel(){
+        document.getElementById("addChartPanel").style.display="block";
+        document.getElementById("vmodal").style.display="block";
+      },
     showOper: function(index){
         this.focusIndex = index;
         this.showOperate=true;

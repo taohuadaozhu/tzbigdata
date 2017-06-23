@@ -1,8 +1,7 @@
 <style lang="scss" scoped="" type="text/css">
 .container {
-  position: absolute;
-  left: 100px;
-  overflow: visible;
+  width: 100%;
+  height: 100%;
 }
 
 ul {

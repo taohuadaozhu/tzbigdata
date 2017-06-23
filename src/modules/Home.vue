@@ -1,62 +1,10 @@
-<style>
-  .main-wrapper {
+
+<style lang="scss" scoped="" type="text/css">
+ .main-wrapper {
     width: 100%;
     height: 100%;
     padding: 0;
   }
-
- 
-
-  /* 页内样式 */
-  .home-page-center {
-    height: 100%;
-  }
-
-  .single-page-center {
-    padding: 8px;
-    box-sizing: border-box;
-  }
-
-  .home-section-wrap {
-    padding: 8px;
-    position: relative;
-  }
-
-  .home-section-wrap-bottom {
-    min-height: -moz-calc(100% - 130px);
-    min-height: -webkit-calc(100% - 130px);
-    min-height: calc(100% - 130px);
-    margin: 8px;
-    background-color: #fff;
-  }
-
-  .page-center-wrap-bottom {
-    min-height: -moz-calc(100% - 16px);
-    min-height: -webkit-calc(100% - 16px);
-    min-height: calc(100% - 16px);
-    background-color: #fff;
-  }
-
-  .page-center-wrap-bottom .home-section-env, .home-section-wrap-bottom .home-section-env, .home-section-wrap-right .home-section-env {
-    padding: 8px !important;
-  }
-
-  .home-section-wrap-right {
-    min-height: -moz-calc(50% - 32px);
-    min-height: -webkit-calc(50% - 32px);
-    min-height: calc(50% - 32px);
-    margin: 8px;
-    background-color: #fff;
-  }
-
-  .home-section-env {
-    background-color: #fff;
-    padding: 16px;
-    position: relative;
-    border-radius: 4px;
-  }
-</style>
-<style scoped>
   .top-menu-item {
     color: #fff;
     float: right;
@@ -75,13 +23,49 @@
 		bottom: 0px;
 		width: 100%;
   }
+  #vmodal {
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100%;
+    opacity: .5;
+    background: #000;
+}
+#addChartPanel{
+  position: fixed;
+  display: none;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    .addchart-box{
+      position: absolute;
+      top:20%;
+      left:35%;
+      width:400px;
+      height:450px;
+    }
+}
+#addChartPanel::after {
+    content: "";
+    display: inline-block;
+    height: 100%;
+    width: 0;
+    vertical-align: middle;
+}
 </style>
 <template>
 <el-row class="container">
   <div class="main-wrapper main-sidebar-l" :class="{'sidebar-mini':menuIsFold}">
     <Cnav></Cnav>
     <router-view></router-view>
-   
+    
+   <div id="addChartPanel" style="z-index: 2001;">
+      <div class="addchart-box">
+         <workTableTree></workTableTree>
+      </div>
+   </div>
+   <div id="vmodal" style="z-index: 2000;"></div>
   </div>
   </el-row>
 </template>
@@ -90,6 +74,7 @@
   import CMenu from 'components/CMenu'
   import CMain from 'components/CMain'
   import Cnav from 'components/Cnav'
+  import workTableTree from 'components/workTableTree'
 
   export default {
     computed: mapGetters([
@@ -99,7 +84,8 @@
     components: {
       CMenu,
       CMain,
-      Cnav
+      Cnav,
+      workTableTree
     },
     watch: {
       tokens: function (val) {

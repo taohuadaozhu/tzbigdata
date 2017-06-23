@@ -1,7 +1,6 @@
 <style lang="scss" scoped="" type="text/css">
 .main-container {
     position: absolute;
-    z-index: 2001;
     top: 70px;
     left: 230px;
     right: 0;

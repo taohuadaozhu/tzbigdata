@@ -139,7 +139,7 @@
           ],
           pass: [
             {required: true, message: '请输入密码', trigger: 'blur'},
-            {min: 6, max: 15, message: '长度为 3~15 个字符', trigger: 'blur'}
+            {min: 6, max: 15, message: '长度为 6~15 个字符', trigger: 'blur'}
           ]
         }
       };

@@ -55,12 +55,12 @@ html,body{
     }
  }
   .main-header {
-    top: 0;
+    position: absolute;
     width: 100%;
     height: 60px;
 		line-height: 60px;
     padding: 0;
-    z-index: 8000;
+    z-index: 1000;
     min-width: 860px;
     box-shadow: 0 0 6px 0 rgba(0, 0, 0, .06), 0 10px 12px 0 rgba(170, 182, 206, .15);
   }

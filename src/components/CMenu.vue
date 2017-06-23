@@ -4,7 +4,6 @@
     top: 70px;
     width: 230px;
     background-color: #EAEDF1;
-    z-index: 1000;
     overflow-y: auto;
     bottom: 0;
   }
@@ -207,9 +206,7 @@
   .iconss:hover{
     opacity: 1;
   }
-  .el-dropdown-menu{
-    z-index: 9999;
-  }
+
 </style>
 <template>
   <nav class="main-sidebar">

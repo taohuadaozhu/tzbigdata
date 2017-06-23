@@ -4,7 +4,7 @@ import Vue from 'vue'
 import store from './store'
 import VueRouter from 'vue-router'
 import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-default/index.css'
+import '../theme/index.css'
 
 //import '../static/css/jquery.gridster.min.css'
 //import './assets/jquery.gridster.min'
@@ -34,7 +34,7 @@ Vue.use(VueEditable);
 
 // 3. 创建 router 实例，然后传 `routes` 配置
 const router = new VueRouter({
-  // mode:'history',
+  mode:'history',
   routes // （缩写）相当于 routes: routes
 })
 //这是一个路由钩子，所有的路由验证都通过这里，而前端只要写脚本把islogin变量改为true就可以访问其他数据界面
@@ -43,7 +43,7 @@ router.beforeEach(({meta, path}, from, next) => {
   console.log(window.location)
   let {auth = true} = meta
   let isLogin = Boolean(store.state.login.tokens != '') //true用户已登录， false用户未登录
-  //  isLogin = true;
+   isLogin = true;
   if(path!=='/newPass'){
      if (auth && !isLogin && path !== '/login'&& path !== '/register') {
         return next({path: '/login'})
