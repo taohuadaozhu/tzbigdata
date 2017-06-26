@@ -1,11 +1,12 @@
-<style scoped>
+<style  rel="stylesheet/scss" lang="scss" scoped>
   .main-sidebar {
+    width: 230px;
     position: absolute;
     top: 70px;
-    width: 230px;
-    background-color: #EAEDF1;
-    overflow-y: auto;
     bottom: 0;
+    z-index: 1000;
+    overflow-y: auto;
+    border-right: 1px solid #D5D4D4;
   }
 
   .sidebar-scroll {
@@ -25,9 +26,9 @@
   }
 
   .main-sidebar-l.sidebar-mini .main-sidebar {
-    -webkit-transform: translateX(-162px) translateY(0) translateZ(0);
-    -ms-transform: translateX(-162px) translateY(0);
-    transform: translateX(-162px) translateY(0) translateZ(0)
+    -webkit-transform: translateX(-166px) translateY(0) translateZ(0);
+    -ms-transform: translateX(-166px) translateY(0);
+    transform: translateX(-166px) translateY(0) translateZ(0)
   }
 
   .main-sidebar-l .main-sidebar .sidebar-content {
@@ -45,7 +46,11 @@
     -ms-transform: translateX(170px) translateY(0);
     transform: translateX(170px) translateY(0) translateZ(0)
   }
-
+  .main-sidebar .sidebar-content .el-icon-more {
+    -webkit-transform: rotate(90deg); 
+    -moz-transform: rotate(90deg);
+    transform: rotate(90deg);
+  }
   /*.main-sidebar-l.sidebar-mini .main-sidebar:hover,
   .main-sidebar-l.sidebar-mini .main-sidebar:hover .sidebar-content {
     -webkit-transform: translateX(0) translateY(0) translateZ(0);
@@ -159,18 +164,14 @@
 
   .nav-setting{
     position: absolute;
-    width: 65px;
-    height: 60px;
+    width: 66px;
     background-color: #fff;
-    border-top: 1px solid lightgray;
-    border-left: 1px solid lightgray;
-    border-right: 1px solid lightgray;
+    border: 1px solid lightgray;
   }
   .setting-item{
-    border-bottom: 1px solid lightgray;
     width: 100%;
-    height: 20px;
-    line-height: 20px;
+    height: 28px;
+    line-height: 28px;
     font-size: 10px;
     color: gray;
     text-align: center;
@@ -182,7 +183,6 @@
   .sidebar-top{
     line-height: 30px;
     margin-bottom: 10px;
-    background-color: aliceblue;
   }
   .iconss{
     overflow: hidden;
@@ -196,17 +196,63 @@
   }
   .sidebar-top i{
     float: right;
-    font-size: 15px;
+    font-size: 14px;
     line-height: 30px;
-    margin-right:10px;
+    margin-right: 10px;
+    color: #989898;
   }
   .sidebar-top a >i{
-    font-size: 23px;
+    font-size: 20px;
   }
   .iconss:hover{
     opacity: 1;
   }
-
+  .el-dropdown-menu{
+    z-index: 9999;
+  }
+  .sidebar-content {
+    font-size: 14px;
+    ul,li,a {
+      margin: 0;
+      padding: 0;
+      color: #666666;
+    }
+    .sidebar-title {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      padding: 10px 0;
+      &:hover {
+        background-color: #fff;
+      }
+      > span {
+        display: inline-block;
+        width: 18px;
+        height: 14px;
+        margin: 0 20px 0 30px;
+      }
+    }
+    .sidebar-submenu {
+      > li {
+        line-height: 40px;
+        padding: 0 20px 0 84px;
+        > i{
+          float: right;
+          line-height: 40px;
+          visibility: hidden;
+        }
+        &:hover {
+          background-color: #fff;
+          a {
+            color: #6699FF;
+          }
+          i {
+            visibility: visible;
+          }
+        }
+      }
+    }
+  }
 </style>
 <template>
   <nav class="main-sidebar">
@@ -217,37 +263,57 @@
         <a @click="toggleMenu" class="fr"><i class="v2 icon-toggle-menu" :class="{'v2-slidebar-packup':!menuIsFold,'v2-slidebar-packup-copy':menuIsFold}"></i></a>
         <i class="el-icon-plus" @click="open3" title="新建类目" ></i>
        </div>
-         
          <!--<i class="el-icon-arrow-up" v-if="showok" v-on:click="arrowup()" ></i>
         <i class="el-icon-arrow-down" v-else v-on:click="arrowup()" ></i>-->
        </div>
-      <div class="sidebar-content">
+      <div class="sidebar-content" @mouseenter="showSideBar()">
         <!--导航菜单-->
-				<el-menu :default-active="$route.path" class="el-menu-vertical-demo" @open="handleopen" @close="handleclose" @select="handleselect"
-					 unique-opened router v-show="!collapsed">
-					<template v-for="(item,index) in menus" v-if="!item.hidden">
-						<el-submenu :index="index+''" v-if="!item.leaf">
-							<template slot="title">{{item.name}}<i class="el-icon-setting" style="float: right;margin: 20px;" @click.stop="openSetting($event,index)"></i>
-                </template>
-							<el-menu-item v-for="child in item.children" :index="child.path" :key="child.path" v-if="!child.hidden">{{child.name}}</el-menu-item>
-						</el-submenu>
-						<el-menu-item v-if="item.leaf&&item.children.length>0" :index="item.children[0].path"><i :class="item.iconCls"></i>{{item.children[0].name}}</el-menu-item>
-					</template>
-				</el-menu>
+				<!-- <el-menu :default-active="$route.path" class="el-menu-vertical-demo" @open="handleopen" @close="handleclose" @select="handleselect"
+                   unique-opened router>
+                          <template v-for="(item,index) in menus" v-if="!item.hidden">
+                            <span style="display:inline-block;width:18px;height:14px;float:left;margin: 20px 26px 20px 30px;">
+                              <img src="../assets/folder.png" width="100%" height="100%">
+                            </span>
+                            <el-submenu :index="index+''" v-if="!item.leaf">
+                      <template slot="title">{{item.name}}
+                              </template>
+                      <el-menu-item style="padding-right: 10px;padding-left: 80px;" v-for="(child, index) in item.children" :index="child.path" :key="child.path" v-if="!child.hidden">
+                                {{child.name}}
+                                <i class="el-icon-more" style="float: right;line-height: 50px;" @click.stop="openSetting($event, index)"></i>
+                              </el-menu-item>
+                    </el-submenu>
+                    <el-menu-item v-if="item.leaf&&item.children.length>0" :index="item.children[0].path"><i :class="item.iconCls"></i>{{item.children[0].name}}</el-menu-item>
+                  </template>
+                </el-menu> -->
+         <ul class="sidebar-menu" id="sortable1">
+          <li v-for="(item,index) in menus">
+            <div @click="toggle" class="sidebar-title">
+              <span>
+                <img src="../assets/folder.png" width="100%" height="100%">
+              </span>
+              {{item.name}}
+            </div>
+            <ul style="display: none" class="sidebar-submenu" id="sortable2">
+              <li v-for="(child, index) in item.children">
+                <router-link :to="child.path">{{child.name}}</router-link>
+                <i class="el-icon-more" @click.stop="openSetting($event, index)"></i>
+              </li>
+            </ul>
+          </li>
+        </ul>
       </div>
     </div>
-   
-
     <div class="nav-setting" v-show="settingShow">
-    <div class="setting-item"><span @click="open1">创建子菜单</span></div>
-    <div class="setting-item"><span @click="open2">重命名</span></div>
-    <div class="setting-item"><span>删除</span></div>
+      <div class="setting-item"><span @click="open1">创建子菜单</span></div>
+      <div class="setting-item"><span @click="open2">重命名</span></div>
+      <div class="setting-item"><span>删除</span></div>
     </div>
   </nav>
 </template>
 <script>
   import menuConfig from '../config/menu'
   import {mapGetters, mapActions} from 'vuex'
+  import Sortable from 'sortablejs'
   import store from '../store'
   export default {
      computed: mapGetters([
@@ -256,41 +322,39 @@
     ]),
     watch: {
       nowtag: function (val) {
-        console.log(val);
         this.getMenus(val);
       }
     },
     data () {
-      
       return {
-        collapsed:false,
         menus: menuConfig.data,
         showok:true,
         childrenShow:true,
-       counter:1,
-       settingShow:false
-        
+        counter:1,
+        settingShow:false
       }
     },
     mounted (){
       if(store.state.login.tokens==="custom"){
-        
         this.menus = menuConfig.caiwu;
         console.log(this.menus)
-      
       }
-      
+      let firstLevel = document.getElementById('sortable1');
+      Sortable.create(firstLevel)
     },
     methods:{
       ...mapActions([
-      'toggleMenu'
-      ]) ,
-      
+        'toggleMenu'
+      ]),
+      showSideBar(){
+        if(this.$store.state.menu.isFold){
+          this.$store.dispatch('toggleMenu')
+        }
+      },
       getMenus: function(val){
         if(val==="datasource"){
           this.menus = menuConfig.datasource;
         }
-        
       },
       onSubmit() {
 				console.log('submit!');
@@ -302,29 +366,24 @@
 				//console.log('handleclose');
 			},
       openSetting(event,index){
+        console.log(index);
         if(this.counter===index){
           if(this.settingShow===true){
             this.settingShow=false;
           }else{
             this.settingShow=true;
           }
-          
         }else{
           this.counter=index;
           this.settingShow=true;
-          $(".nav-setting").css("top",(event.clientY-60)+"px").css("left",(event.clientX-28)+"px");
+          $(".nav-setting").css("top",(event.clientY-60)+"px").css("left",(event.clientX-66)+"px");
         }
-        
-        
       },
 			handleselect: function (a, b) {
 			},
-      toggle (index, item) {
-        console.log(this);
-      // this.expandMenu({
-      //   index: index,
-      //   expanded: !item.meta.expanded
-      // })
+      // 二级菜单折叠伸展
+      toggle () {
+        $(event.target).next().toggle(200)
       },
       arrowup: function(){
         if(this.showok===false){
