@@ -7,6 +7,7 @@
     z-index: 1000;
     overflow-y: auto;
     border-right: 1px solid #D5D4D4;
+    background-color: #1C2B36;
   }
 
   .sidebar-scroll {
@@ -189,7 +190,7 @@
     opacity: 0.6;
   }
   .sidebar-top .iconss > span {
-    color: #666666;
+    color: #FFFFFF;
     font-weight: 700;
     font-size: 14px;
     margin-left: 15px;
@@ -215,21 +216,31 @@
     ul,li,a {
       margin: 0;
       padding: 0;
-      color: #666666;
+      color: #7BA0BB;
     }
     .sidebar-title {
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
+      color: #C1CFE0;
+      line-height: 14px;
       padding: 10px 0;
       &:hover {
-        background-color: #fff;
+        color: #fff;
+        background-color: #48555D;
+        i {
+          visibility: visible;
+        }
       }
       > span {
         display: inline-block;
         width: 18px;
         height: 14px;
+        vertical-align: text-top;
         margin: 0 20px 0 30px;
+      }
+      > i {
+        float: right;
+        margin-right: 20px;
+        visibility: hidden;
+        color: #FFF;
       }
     }
     .sidebar-submenu {
@@ -242,11 +253,12 @@
           visibility: hidden;
         }
         &:hover {
-          background-color: #fff;
+          background-color: #48555D;
           a {
-            color: #6699FF;
+            color: #FFF;
           }
           i {
+            color: #FFF;
             visibility: visible;
           }
         }
@@ -286,12 +298,13 @@
                   </template>
                 </el-menu> -->
          <ul class="sidebar-menu" id="sortable1">
-          <li v-for="(item,index) in menus">
+          <li v-for="(item,idx) in menus">
             <div @click="toggle" class="sidebar-title">
               <span>
                 <img src="../assets/folder.png" width="100%" height="100%">
               </span>
               {{item.name}}
+              <i class="el-icon-more" @click.stop="openSetting($event, idx)"></i>
             </div>
             <ul style="display: none" class="sidebar-submenu" id="sortable2">
               <li v-for="(child, index) in item.children">
@@ -304,7 +317,7 @@
       </div>
     </div>
     <div class="nav-setting" v-show="settingShow">
-      <div class="setting-item"><span @click="open1">创建子菜单</span></div>
+      <div class="setting-item" v-if="newBuiltShow"><span @click="open1">创建子菜单</span></div>
       <div class="setting-item"><span @click="open2">重命名</span></div>
       <div class="setting-item"><span>删除</span></div>
     </div>
@@ -331,13 +344,13 @@
         showok:true,
         childrenShow:true,
         counter:1,
-        settingShow:false
+        settingShow:false,
+        newBuiltShow: false
       }
     },
     mounted (){
       if(store.state.login.tokens==="custom"){
         this.menus = menuConfig.caiwu;
-        console.log(this.menus)
       }
       let firstLevel = document.getElementById('sortable1');
       Sortable.create(firstLevel)
@@ -366,16 +379,28 @@
 				//console.log('handleclose');
 			},
       openSetting(event,index){
-        console.log(index);
+        console.log(index)
+        console.log(this.counter)
         if(this.counter===index){
           if(this.settingShow===true){
             this.settingShow=false;
           }else{
             this.settingShow=true;
+            if (event.target.parentElement.tagName === 'DIV') {
+              this.newBuiltShow = true
+            } else {
+              this.newBuiltShow = false
+            }
+            $(".nav-setting").css("top",(event.clientY-60)+"px").css("left",(event.clientX-66)+"px");
           }
         }else{
           this.counter=index;
           this.settingShow=true;
+          if (event.target.parentElement.tagName === 'DIV') {
+            this.newBuiltShow = true
+          } else {
+            this.newBuiltShow = false
+          }
           $(".nav-setting").css("top",(event.clientY-60)+"px").css("left",(event.clientX-66)+"px");
         }
       },
